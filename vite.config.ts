@@ -4,25 +4,7 @@ import path from "path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-	plugins: [
-		// When vercel dev applies the vercel.json rewrite rule (destination: /index.html),
-		// it loads index.html through Vite's module pipeline instead of the HTML
-		// middleware. Without this, vite:import-analysis tries to parse the raw HTML
-		// (including <script type="application/ld+json"> blocks) as JavaScript and fails.
-		// Returning valid empty JS here lets the module pipeline succeed, while the
-		// indexHtmlMiddleware still serves the real HTML to the browser independently.
-		{
-			name: "html-module-passthrough",
-			apply: "serve",
-			transform(_code: string, id: string) {
-				if (id.endsWith(".html")) {
-					return { code: "export default {}", map: null }
-				}
-			},
-		},
-		react(),
-		tailwindcss(),
-	],
+	plugins: [react(), tailwindcss()],
 	optimizeDeps: {
 		include: ["html2canvas"]
 	},
