@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Free online QR code generator. Create custom QR codes with colors, logo, dot styles and error correction — privately in your browser. No uploads, no servers, no tracking."
+    />
+    <meta
+      name="keywords"
+      content="qr code generator, free qr code generator, custom qr code, qr code with logo, qr code colors, qr code dot style, qr code download, qr code url, qr code wifi, qr code email, qr code text, qr code png, qr code svg, qr code jpg, private qr code, offline qr code, browser qr code, no upload qr code, qr code maker, qr code creator, qr code design, qr code style, generate qr code online, make qr code free, qr code for website, qr code for wifi password"
+    />
+    <meta name="theme-color" content="#07080d" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://qrvault.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="QRVault — Free Custom QR Code Generator" />
+    <meta
+      property="og:description"
+      content="Create custom QR codes with colors, logo, and styles — privately in your browser. No uploads, no servers, 100% private."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://qrvault.app/" />
+    <meta property="og:image" content="https://qrvault.app/og-image.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="QRVault — Free Custom QR Code Generator"
+    />
+    <meta property="og:site_name" content="QRVault" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="QRVault — Free Custom QR Code Generator" />
+    <meta
+      name="twitter:description"
+      content="Create custom QR codes with colors, logo, and styles — privately in your browser. No uploads, no servers, 100% private."
+    />
+    <meta name="twitter:image" content="https://qrvault.app/og-image.webp" />
+    <meta
+      name="twitter:image:alt"
+      content="QRVault — Free Custom QR Code Generator"
+    />
+
+    <!-- Structured data — WebApplication -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "QRVault",
+        "url": "https://qrvault.app/",
+        "publisher": {
+          "@type": "Organization",
+          "name": "ROC Desenvolvimento de Software Ltda",
+          "url": "https://qrvault.app/"
+        },
+        "description": "Free online QR code generator. Create custom QR codes with colors, logo, dot styles and error correction — privately in your browser with no uploads and no servers.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Generate QR codes for URLs, text, email, and WiFi",
+          "Custom dot styles and corner styles",
+          "Custom foreground and background colors",
+          "Embed your logo in the QR code",
+          "Adjustable error correction levels (L, M, Q, H)",
+          "Download as PNG, SVG, or JPG",
+          "100% private — no uploads, no servers",
+          "Works offline after page load"
+        ]
+      }
+    </script>
+
+    <!-- Structured data — FAQPage for Google rich snippets -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is my data private? Does anything get uploaded?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nothing ever leaves your device. QRVault generates QR codes entirely in your browser using JavaScript — there are no servers, no uploads, and no tracking. Your URLs, WiFi passwords, and email addresses stay on your machine."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What content types can I encode in a QR code?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "QRVault supports four types: URL (any web address), plain text (notes, coupons, product codes), email (pre-filled address, subject and body), and WiFi (SSID, password and security type — scan to connect instantly on iOS and Android)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is error correction and which level should I use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Error correction lets a QR code be read even when part of it is damaged or obscured. Level L recovers 7% damage, M recovers 15%, Q recovers 25%, and H recovers 30%. Use H when embedding a logo. Use L or M for clean prints where you want smaller, denser patterns."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is my QR code not scanning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Common causes: the dot and background colors have too little contrast, the QR code is too small (print at least 2.5 cm / 1 inch), the error correction level is too low when a logo covers the centre, or the content is too long (keep URLs short using a URL shortener)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between PNG, SVG, and JPG export?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PNG is the safest choice — lossless, transparent background support, works everywhere. SVG is a vector format that scales infinitely for print. JPG uses lossy compression which can blur the sharp edges QR scanners rely on — use PNG or SVG instead whenever possible."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I add a logo? Any tips for good results?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — upload a PNG or SVG logo using the Upload logo button. Keep the file under 200 KB. Set the error correction level to H before adding a logo, because the logo covers part of the code and the higher correction level ensures it still scans correctly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use QRVault offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Once the page has loaded in your browser, QRVault works completely offline — no internet connection required. All processing is local, so you can generate and download QR codes without any network access."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <title>QRVault — Free Custom QR Code Generator</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

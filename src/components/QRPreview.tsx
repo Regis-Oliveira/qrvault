@@ -1,0 +1,92 @@
+import QRCodeStyling from "qr-code-styling";
+import { useEffect, useImperativeHandle, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { buildQRData, isConfigEmpty } from "@/lib/qrContent";
+import type { QRConfig } from "@/types/qr";
+
+interface Props {
+	config: QRConfig;
+	instanceRef?: React.Ref<QRCodeStyling | null>;
+}
+
+function buildOptions(config: QRConfig): ConstructorParameters<typeof QRCodeStyling>[0] {
+	return {
+		width: config.size,
+		height: config.size,
+		data: buildQRData(config) || "https://qrvault.app",
+		qrOptions: {
+			errorCorrectionLevel: config.errorCorrection
+		},
+		dotsOptions: {
+			type: config.dotStyle,
+			color: config.dotColor
+		},
+		cornersSquareOptions: {
+			type:
+				config.cornerStyle === "square"
+					? "square"
+					: config.cornerStyle === "dot"
+						? "dot"
+						: "extra-rounded"
+		},
+		backgroundOptions: {
+			color: config.backgroundColor
+		},
+		image: config.logoDataUrl,
+		imageOptions: {
+			crossOrigin: "anonymous",
+			margin: 4,
+			imageSize: 0.3
+		}
+	};
+}
+
+export function QRPreview({ config, instanceRef }: Props) {
+	const { t } = useTranslation();
+	const containerRef = useRef<HTMLDivElement>(null);
+	const qrRef = useRef<QRCodeStyling | null>(null);
+	const empty = isConfigEmpty(config);
+
+	// Expose the QRCodeStyling instance to the parent
+	useImperativeHandle(instanceRef, () => qrRef.current as QRCodeStyling, []);
+
+	// Instantiate once on mount — config intentionally excluded: initial options are a
+	// snapshot; subsequent changes flow through the update effect below.
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional mount-only effect
+	useEffect(() => {
+		if (!containerRef.current) return;
+		qrRef.current = new QRCodeStyling(buildOptions(config));
+		qrRef.current.append(containerRef.current);
+	}, []);
+
+	// Update on config changes (debounce handled by parent for text fields)
+	useEffect(() => {
+		qrRef.current?.update(buildOptions(config));
+	}, [config]);
+
+	return (
+		<div className="flex flex-col items-center gap-3">
+			<div
+				className="relative rounded-xl overflow-hidden"
+				style={{ boxShadow: "0 0 0 1px #2d3748, 0 8px 32px rgba(0,0,0,0.5)" }}
+			>
+				<div
+					ref={containerRef}
+					aria-label={t("a11y.qrPreview")}
+					role="img"
+					className="block [line-height:0]"
+				/>
+				{empty && (
+					<div
+						className="absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none backdrop-blur-[2px]"
+						style={{ backgroundColor: "rgba(13, 17, 23, 0.85)" }}
+					>
+						<span className="text-[2rem]">⬛</span>
+						<p className="text-gray-400 text-[13px] text-center px-4">{t("preview.empty")}</p>
+					</div>
+				)}
+			</div>
+			{!empty && <p className="text-gray-400 text-xs">{t("preview.scanHint")}</p>}
+		</div>
+	);
+}
