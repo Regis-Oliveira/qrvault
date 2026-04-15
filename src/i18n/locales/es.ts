@@ -18,6 +18,11 @@ const es = {
 				realtime: "Vista Previa en Tiempo Real"
 			}
 		},
+		url: {
+			label: "URL",
+			placeholder: "https://ejemplo.com",
+			error: "Introduce una URL válida que comience con https:// o http://"
+		},
 		input: {
 			placeholder: "Ingresa URL, texto, correo o credenciales WiFi…",
 			label: "Contenido",
@@ -85,8 +90,9 @@ const es = {
 		},
 		share: {
 			title: "Compartir",
-			whatsapp: "Compartir por WhatsApp",
-			copy: "Copiar enlace",
+			shareImage: "Compartir imagen del QR",
+			sharing: "Compartiendo…",
+			copy: "Copiar contenido",
 			copied: "¡Copiado!"
 		},
 		preview: {
@@ -97,7 +103,8 @@ const es = {
 			reset: "Reiniciar código QR"
 		},
 		nav: {
-			buyMeCoffee: "Invítame a un café"
+			buyMeCoffee: "Invítame a un café",
+			myQRCodes: "Mis códigos QR"
 		},
 		footer: {
 			privacy: "Tus datos nunca salen de tu dispositivo.",
@@ -139,11 +146,52 @@ const es = {
 			downloadPng: "Descargar código QR como PNG",
 			downloadSvg: "Descargar código QR como SVG",
 			downloadJpg: "Descargar código QR como JPG",
-			shareWhatsapp: "Compartir por WhatsApp",
-			copyLink: "Copiar enlace compartible",
+			shareImage: "Compartir código QR como imagen",
+			copyContent: "Copiar contenido del código QR",
 			removeLogoAriaLabel: "Quitar logo",
 			uploadLogoAriaLabel: "Subir imagen de logo",
-			feedbackCharCount: "{{remaining}} caracteres restantes"
+			feedbackCharCount: "{{remaining}} caracteres restantes",
+			editQR: "Editar {{title}}",
+			deleteQR: "Eliminar {{title}}"
+		},
+		save: {
+			button: "Guardar código QR",
+			sectionTitle: "Guardar",
+			dialogTitle: "Guardar código QR",
+			dialogEdit: "Editar código QR guardado",
+			titleLabel: "Título",
+			titlePlaceholder: "ej.: WiFi Casa, Mi Portafolio…",
+			descLabel: "Descripción",
+			descPlaceholder: "Notas opcionales sobre este código QR…",
+			categoryLabel: "Categoría",
+			categoryPlaceholder: "Selecciona una categoría…",
+			categoryCustom: "✚ Personalizada…",
+			categoryCustomPlaceholder: "Escribe una categoría personalizada…",
+			save: "Guardar",
+			update: "Actualizar",
+			updateBtn: "Actualizar código QR",
+			cancel: "Cancelar",
+			titleRequired: "El título es obligatorio.",
+			saved: "¡Guardado!",
+			updated: "¡Actualizado!"
+		},
+		vault: {
+			title: "Mis códigos QR",
+			subtitle: "Todos tus códigos QR guardados en un solo lugar.",
+			empty: "Aún no hay códigos QR guardados.",
+			emptyHint: 'Genera un código QR y haz clic en "Guardar código QR" para almacenarlo aquí.',
+			filterAll: "Todos",
+			deleteConfirm: "¿Eliminar este?",
+			confirmYes: "Eliminar",
+			confirmNo: "Cancelar",
+			downloadBtn: "Descargar",
+			createFirst: "Crea tu primer código QR"
+		},
+		storage: {
+			ariaLabel: "Almacenamiento: {{percent}}% usado",
+			warning: "El almacenamiento se está llenando. Considera eliminar algunos códigos QR.",
+			critical: "El almacenamiento está casi lleno.",
+			blocked: "Almacenamiento lleno. Elimina algunos códigos QR para continuar guardando."
 		},
 		faq: {
 			title: "Preguntas Frecuentes",

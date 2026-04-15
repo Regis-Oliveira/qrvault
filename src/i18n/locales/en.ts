@@ -18,6 +18,11 @@ const en = {
 				realtime: "Real-time Preview"
 			}
 		},
+		url: {
+			label: "URL",
+			placeholder: "https://example.com",
+			error: "Enter a valid URL starting with https:// or http://"
+		},
 		input: {
 			placeholder: "Enter URL, text, email or WiFi credentials…",
 			label: "Content",
@@ -85,8 +90,9 @@ const en = {
 		},
 		share: {
 			title: "Share",
-			whatsapp: "Share via WhatsApp",
-			copy: "Copy link",
+			shareImage: "Share QR Image",
+			sharing: "Sharing…",
+			copy: "Copy content",
 			copied: "Copied!"
 		},
 		preview: {
@@ -97,7 +103,8 @@ const en = {
 			reset: "Reset QR Code"
 		},
 		nav: {
-			buyMeCoffee: "Buy me a coffee"
+			buyMeCoffee: "Buy me a coffee",
+			myQRCodes: "My QR Codes"
 		},
 		footer: {
 			privacy: "Your data never leaves your device.",
@@ -139,11 +146,52 @@ const en = {
 			downloadPng: "Download QR code as PNG",
 			downloadSvg: "Download QR code as SVG",
 			downloadJpg: "Download QR code as JPG",
-			shareWhatsapp: "Share via WhatsApp",
-			copyLink: "Copy shareable link",
+			shareImage: "Share QR code as image",
+			copyContent: "Copy QR code content",
 			removeLogoAriaLabel: "Remove logo",
 			uploadLogoAriaLabel: "Upload logo image",
-			feedbackCharCount: "{{remaining}} characters remaining"
+			feedbackCharCount: "{{remaining}} characters remaining",
+			editQR: "Edit {{title}}",
+			deleteQR: "Delete {{title}}"
+		},
+		save: {
+			button: "Save QR Code",
+			sectionTitle: "Save",
+			dialogTitle: "Save QR Code",
+			dialogEdit: "Edit Saved QR",
+			titleLabel: "Title",
+			titlePlaceholder: "e.g. Home WiFi, My Portfolio…",
+			descLabel: "Description",
+			descPlaceholder: "Optional notes about this QR code…",
+			categoryLabel: "Category",
+			categoryPlaceholder: "Select a category…",
+			categoryCustom: "✚ Custom…",
+			categoryCustomPlaceholder: "Type a custom category…",
+			save: "Save",
+			update: "Update",
+			updateBtn: "Update QR Code",
+			cancel: "Cancel",
+			titleRequired: "Title is required.",
+			saved: "Saved!",
+			updated: "Updated!"
+		},
+		vault: {
+			title: "My QR Codes",
+			subtitle: "All your saved QR codes in one place.",
+			empty: "No QR codes saved yet.",
+			emptyHint: 'Generate a QR code and click "Save QR Code" to store it here.',
+			filterAll: "All",
+			deleteConfirm: "Delete this?",
+			confirmYes: "Delete",
+			confirmNo: "Cancel",
+			downloadBtn: "Download",
+			createFirst: "Create your first QR code"
+		},
+		storage: {
+			ariaLabel: "Storage: {{percent}}% used",
+			warning: "Storage is getting full. Consider deleting some QR codes.",
+			critical: "Storage is almost full.",
+			blocked: "Storage is full. Delete some QR codes to continue saving."
 		},
 		faq: {
 			title: "Frequently Asked Questions",

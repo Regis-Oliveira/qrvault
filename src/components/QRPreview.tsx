@@ -1,44 +1,13 @@
 import QRCodeStyling from "qr-code-styling";
-import { useEffect, useImperativeHandle, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { buildQRData, isConfigEmpty } from "@/lib/qrContent";
+import { isConfigEmpty } from "@/lib/qrContent";
+import { buildQROptions } from "@/lib/qrOptions";
 import type { QRConfig } from "@/types/qr";
 
 interface Props {
 	config: QRConfig;
 	instanceRef?: React.Ref<QRCodeStyling | null>;
-}
-
-function buildOptions(config: QRConfig): ConstructorParameters<typeof QRCodeStyling>[0] {
-	return {
-		width: config.size,
-		height: config.size,
-		data: buildQRData(config) || "https://qrvault.app",
-		qrOptions: {
-			errorCorrectionLevel: config.errorCorrection
-		},
-		dotsOptions: {
-			type: config.dotStyle,
-			color: config.dotColor
-		},
-		cornersSquareOptions: {
-			type:
-				config.cornerStyle === "square"
-					? "square"
-					: config.cornerStyle === "dot"
-						? "dot"
-						: "extra-rounded"
-		},
-		backgroundOptions: {
-			color: config.backgroundColor
-		},
-		image: config.logoDataUrl,
-		imageOptions: {
-			crossOrigin: "anonymous",
-			margin: 4,
-			imageSize: 0.3
-		}
-	};
 }
 
 export function QRPreview({ config, instanceRef }: Props) {
@@ -47,21 +16,27 @@ export function QRPreview({ config, instanceRef }: Props) {
 	const qrRef = useRef<QRCodeStyling | null>(null);
 	const empty = isConfigEmpty(config);
 
-	// Expose the QRCodeStyling instance to the parent
-	useImperativeHandle(instanceRef, () => qrRef.current as QRCodeStyling, []);
-
-	// Instantiate once on mount — config intentionally excluded: initial options are a
-	// snapshot; subsequent changes flow through the update effect below.
+	// Instantiate once on mount and expose the instance to the parent via instanceRef.
+	// useImperativeHandle cannot be used here because it runs in the layout phase,
+	// before this useEffect fires — so the ref factory would capture qrRef.current = null.
+	// Instead we assign the parent ref directly after the instance is created.
 	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional mount-only effect
 	useEffect(() => {
 		if (!containerRef.current) return;
-		qrRef.current = new QRCodeStyling(buildOptions(config));
+		qrRef.current = new QRCodeStyling(buildQROptions(config));
 		qrRef.current.append(containerRef.current);
+		if (instanceRef) {
+			if (typeof instanceRef === "function") {
+				instanceRef(qrRef.current);
+			} else {
+				(instanceRef as React.MutableRefObject<QRCodeStyling | null>).current = qrRef.current;
+			}
+		}
 	}, []);
 
 	// Update on config changes (debounce handled by parent for text fields)
 	useEffect(() => {
-		qrRef.current?.update(buildOptions(config));
+		qrRef.current?.update(buildQROptions(config));
 	}, [config]);
 
 	return (

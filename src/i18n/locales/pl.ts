@@ -18,6 +18,11 @@ const pl = {
 				realtime: "Podgląd w Czasie Rzeczywistym"
 			}
 		},
+		url: {
+			label: "URL",
+			placeholder: "https://przykład.pl",
+			error: "Podaj prawidłowy URL zaczynający się od https:// lub http://"
+		},
 		input: {
 			placeholder: "Wpisz URL, tekst, e-mail lub dane WiFi…",
 			label: "Treść",
@@ -85,8 +90,9 @@ const pl = {
 		},
 		share: {
 			title: "Udostępnij",
-			whatsapp: "Udostępnij przez WhatsApp",
-			copy: "Kopiuj link",
+			shareImage: "Udostępnij obraz QR",
+			sharing: "Udostępnianie…",
+			copy: "Kopiuj treść",
 			copied: "Skopiowano!"
 		},
 		preview: {
@@ -97,7 +103,8 @@ const pl = {
 			reset: "Resetuj kod QR"
 		},
 		nav: {
-			buyMeCoffee: "Postaw mi kawę"
+			buyMeCoffee: "Postaw mi kawę",
+			myQRCodes: "Moje kody QR"
 		},
 		footer: {
 			privacy: "Twoje dane nigdy nie opuszczają urządzenia.",
@@ -139,11 +146,52 @@ const pl = {
 			downloadPng: "Pobierz kod QR jako PNG",
 			downloadSvg: "Pobierz kod QR jako SVG",
 			downloadJpg: "Pobierz kod QR jako JPG",
-			shareWhatsapp: "Udostępnij przez WhatsApp",
-			copyLink: "Kopiuj link do udostępnienia",
+			shareImage: "Udostępnij kod QR jako obraz",
+			copyContent: "Kopiuj treść kodu QR",
 			removeLogoAriaLabel: "Usuń logo",
 			uploadLogoAriaLabel: "Prześlij obraz logo",
-			feedbackCharCount: "{{remaining}} pozostałych znaków"
+			feedbackCharCount: "{{remaining}} pozostałych znaków",
+			editQR: "Edytuj {{title}}",
+			deleteQR: "Usuń {{title}}"
+		},
+		save: {
+			button: "Zapisz kod QR",
+			sectionTitle: "Zapisz",
+			dialogTitle: "Zapisz kod QR",
+			dialogEdit: "Edytuj zapisany kod QR",
+			titleLabel: "Tytuł",
+			titlePlaceholder: "np. WiFi Dom, Moje Portfolio…",
+			descLabel: "Opis",
+			descPlaceholder: "Opcjonalne notatki o tym kodzie QR…",
+			categoryLabel: "Kategoria",
+			categoryPlaceholder: "Wybierz kategorię…",
+			categoryCustom: "✚ Własna…",
+			categoryCustomPlaceholder: "Wpisz własną kategorię…",
+			save: "Zapisz",
+			update: "Zaktualizuj",
+			updateBtn: "Zaktualizuj kod QR",
+			cancel: "Anuluj",
+			titleRequired: "Tytuł jest wymagany.",
+			saved: "Zapisano!",
+			updated: "Zaktualizowano!"
+		},
+		vault: {
+			title: "Moje kody QR",
+			subtitle: "Wszystkie zapisane kody QR w jednym miejscu.",
+			empty: "Nie zapisano jeszcze żadnych kodów QR.",
+			emptyHint: 'Wygeneruj kod QR i kliknij "Zapisz kod QR", aby go tu przechować.',
+			filterAll: "Wszystkie",
+			deleteConfirm: "Usunąć ten kod?",
+			confirmYes: "Usuń",
+			confirmNo: "Anuluj",
+			downloadBtn: "Pobierz",
+			createFirst: "Utwórz swój pierwszy kod QR"
+		},
+		storage: {
+			ariaLabel: "Pamięć: {{percent}}% używane",
+			warning: "Pamięć się zapełnia. Rozważ usunięcie niektórych kodów QR.",
+			critical: "Pamięć jest prawie pełna.",
+			blocked: "Pamięć pełna. Usuń niektóre kody QR, aby kontynuować zapisywanie."
 		},
 		faq: {
 			title: "Często Zadawane Pytania",

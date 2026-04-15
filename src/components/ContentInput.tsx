@@ -17,6 +17,12 @@ const inputClass =
 
 const labelClass = "block text-gray-300 text-xs mb-1.5";
 
+const URL_REGEX = /^https?:\/\/.+/i;
+
+function validateUrl(value: string): boolean {
+	return value === "" || URL_REGEX.test(value);
+}
+
 function ContentInputComponent({
 	config,
 	onTextChange,
@@ -27,16 +33,30 @@ function ContentInputComponent({
 	const { t } = useTranslation();
 	// Local text state for debouncing
 	const [localText, setLocalText] = useState(config.text);
+	const [urlError, setUrlError] = useState(false);
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	// Sync if parent resets
 	useEffect(() => {
 		setLocalText(config.text);
+		setUrlError(false);
 	}, [config.text]);
 
 	const handleTextChange = useCallback(
 		(value: string) => {
 			setLocalText(value);
+			if (debounceRef.current) clearTimeout(debounceRef.current);
+			debounceRef.current = setTimeout(() => {
+				onTextChange(value);
+			}, 300);
+		},
+		[onTextChange]
+	);
+
+	const handleUrlChange = useCallback(
+		(value: string) => {
+			setLocalText(value);
+			setUrlError(!validateUrl(value));
 			if (debounceRef.current) clearTimeout(debounceRef.current);
 			debounceRef.current = setTimeout(() => {
 				onTextChange(value);
@@ -80,8 +100,32 @@ function ContentInputComponent({
 				})}
 			</div>
 
-			{/* URL / Text */}
-			{(config.contentType === "url" || config.contentType === "text") && (
+			{/* URL */}
+			{config.contentType === "url" && (
+				<div>
+					<label htmlFor="qr-url-input" className={labelClass}>
+						{t("url.label")}
+					</label>
+					<input
+						id="qr-url-input"
+						type="url"
+						value={localText}
+						onChange={(e) => handleUrlChange(e.target.value)}
+						placeholder={t("url.placeholder")}
+						autoFocus
+						className={inputClass}
+						style={urlError ? { borderColor: "#f87171" } : undefined}
+					/>
+					{urlError && (
+						<p className="text-xs mt-1.5" style={{ color: "#f87171" }}>
+							{t("url.error")}
+						</p>
+					)}
+				</div>
+			)}
+
+			{/* Text */}
+			{config.contentType === "text" && (
 				<div>
 					<label htmlFor="qr-text-input" className={labelClass}>
 						{t("input.label")}

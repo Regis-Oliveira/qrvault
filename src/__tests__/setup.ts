@@ -79,6 +79,26 @@ vi.mock("@/i18n", () => ({
 	]
 }));
 
+// ─── react-router-dom ────────────────────────────────────────────────────────
+
+vi.mock("react-router-dom", async () => {
+	const React = await import("react");
+	return {
+		BrowserRouter: ({ children }: { children: React.ReactNode }) => children,
+		MemoryRouter: ({ children }: { children: React.ReactNode }) => children,
+		Routes: ({ children }: { children: React.ReactNode }) => children,
+		Route: ({ element }: { element: React.ReactNode }) => element,
+		Link: ({
+			children,
+			to,
+			...props
+		}: { children: React.ReactNode; to: string } & React.AnchorHTMLAttributes<HTMLAnchorElement>) =>
+			React.createElement("a", { href: to, ...props }, children),
+		useNavigate: () => vi.fn(),
+		useLocation: () => ({ pathname: "/", state: null, search: "", hash: "", key: "default" })
+	};
+});
+
 // ─── qr-code-styling (not available in jsdom) ────────────────────────────────
 
 vi.mock("qr-code-styling", () => {

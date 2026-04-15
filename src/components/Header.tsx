@@ -1,6 +1,7 @@
-import { ChevronDown, Coffee } from "lucide-react";
+import { ChevronDown, Coffee, FolderOpen } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { SUPPORTED_LANGUAGES, setLanguage } from "@/i18n";
 import { BUY_ME_A_COFFEE_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -45,12 +46,12 @@ export function Header() {
 		>
 			<div className="w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 h-16 flex items-center justify-between gap-4">
 				{/* Logo + Brand */}
-				<a href="/" className="flex items-center gap-2.5 min-h-11" aria-label={t("brand.name")}>
+				<Link to="/" className="flex items-center gap-2.5 min-h-11" aria-label={t("brand.name")}>
 					<Logo size={30} />
 					<span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-br from-cyan-300 via-cyan-400 to-cyan-600">
 						{t("brand.name")}
 					</span>
-				</a>
+				</Link>
 
 				{/* Right side */}
 				<nav className="flex items-center gap-2" aria-label="Main navigation">
@@ -120,6 +121,23 @@ export function Header() {
 							</ul>
 						)}
 					</div>
+
+					{/* My QR Codes */}
+					<Link
+						to="/qrcodes"
+						aria-label={t("nav.myQRCodes")}
+						className="flex items-center justify-center gap-1.5 sm:px-3 rounded-lg text-xs font-semibold transition-all hover:opacity-80 cursor-pointer"
+						style={{
+							background: "rgba(6,182,212,0.08)",
+							border: "1px solid rgba(6,182,212,0.3)",
+							color: "#06b6d4",
+							minWidth: "44px",
+							minHeight: "44px"
+						}}
+					>
+						<FolderOpen size={12} aria-hidden="true" />
+						<span className="hidden sm:inline">{t("nav.myQRCodes")}</span>
+					</Link>
 
 					{/* Buy me a coffee */}
 					<a

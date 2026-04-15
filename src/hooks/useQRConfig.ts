@@ -24,5 +24,8 @@ export function useQRConfig() {
 
 	const reset = useCallback(() => setConfig(DEFAULT_CONFIG), []);
 
-	return { config, update, reset };
+	/** Replace the entire config at once — used when loading a saved QR for editing. */
+	const load = useCallback((cfg: QRConfig) => setConfig(cfg), []);
+
+	return { config, update, reset, load };
 }

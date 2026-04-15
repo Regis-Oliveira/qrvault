@@ -68,14 +68,69 @@ describe("ContentInput — tab switching", () => {
 	});
 });
 
-// ─── URL / text textarea ───────────────────────────────────────────────────
+// ─── URL input ────────────────────────────────────────────────────────────
 
-describe("ContentInput — text/url textarea", () => {
-	it("shows the textarea for url content type", () => {
+describe("ContentInput — url input", () => {
+	it("shows a url input for the url content type", () => {
 		setup();
-		expect(screen.getByRole("textbox", { name: "input.label" })).toBeInTheDocument();
+		expect(screen.getByRole("textbox", { name: "url.label" })).toBeInTheDocument();
+		expect(screen.queryByRole("textbox", { name: "input.label" })).not.toBeInTheDocument();
 	});
 
+	it("calls onTextChange after debounce when user types a URL", () => {
+		vi.useFakeTimers();
+		const { onTextChange } = setup();
+		fireEvent.change(screen.getByRole("textbox", { name: "url.label" }), {
+			target: { value: "https://example.com" }
+		});
+		expect(onTextChange).not.toHaveBeenCalled();
+		vi.advanceTimersByTime(300);
+		expect(onTextChange).toHaveBeenCalledWith("https://example.com");
+		vi.useRealTimers();
+	});
+
+	it("does not show an error for an empty value", () => {
+		setup();
+		expect(screen.queryByText("url.error")).not.toBeInTheDocument();
+	});
+
+	it("does not show an error for a valid https URL", () => {
+		setup();
+		fireEvent.change(screen.getByRole("textbox", { name: "url.label" }), {
+			target: { value: "https://example.com" }
+		});
+		expect(screen.queryByText("url.error")).not.toBeInTheDocument();
+	});
+
+	it("does not show an error for a valid http URL", () => {
+		setup();
+		fireEvent.change(screen.getByRole("textbox", { name: "url.label" }), {
+			target: { value: "http://example.com/path?q=1" }
+		});
+		expect(screen.queryByText("url.error")).not.toBeInTheDocument();
+	});
+
+	it("shows an error for a URL without protocol", () => {
+		setup();
+		fireEvent.change(screen.getByRole("textbox", { name: "url.label" }), {
+			target: { value: "example.com" }
+		});
+		expect(screen.getByText("url.error")).toBeInTheDocument();
+	});
+
+	it("clears the error when the field is cleared", () => {
+		setup();
+		const input = screen.getByRole("textbox", { name: "url.label" });
+		fireEvent.change(input, { target: { value: "not-a-url" } });
+		expect(screen.getByText("url.error")).toBeInTheDocument();
+		fireEvent.change(input, { target: { value: "" } });
+		expect(screen.queryByText("url.error")).not.toBeInTheDocument();
+	});
+});
+
+// ─── Text textarea ─────────────────────────────────────────────────────────
+
+describe("ContentInput — text textarea", () => {
 	it("shows the textarea for text content type", () => {
 		setup({ config: { ...base, contentType: "text" } });
 		expect(screen.getByRole("textbox", { name: "input.label" })).toBeInTheDocument();
@@ -83,7 +138,7 @@ describe("ContentInput — text/url textarea", () => {
 
 	it("calls onTextChange after debounce when user types", () => {
 		vi.useFakeTimers();
-		const { onTextChange } = setup();
+		const { onTextChange } = setup({ config: { ...base, contentType: "text" } });
 		const textarea = screen.getByRole("textbox", { name: "input.label" });
 		fireEvent.change(textarea, { target: { value: "hello" } });
 		expect(onTextChange).not.toHaveBeenCalled();
@@ -94,7 +149,7 @@ describe("ContentInput — text/url textarea", () => {
 
 	it("does not call onTextChange before debounce elapses", () => {
 		vi.useFakeTimers();
-		const { onTextChange } = setup();
+		const { onTextChange } = setup({ config: { ...base, contentType: "text" } });
 		fireEvent.change(screen.getByRole("textbox", { name: "input.label" }), {
 			target: { value: "ab" }
 		});

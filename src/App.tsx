@@ -1,7 +1,8 @@
 import { domAnimation, LazyMotion } from "framer-motion";
 import QRCodeStyling from "qr-code-styling";
-import { lazy, Suspense, useCallback, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ContentInput } from "@/components/ContentInput";
 import { CustomizationPanel } from "@/components/CustomizationPanel";
 import { DownloadPanel } from "@/components/DownloadPanel";
@@ -10,7 +11,8 @@ import { Header } from "@/components/Header";
 import { QRPreview } from "@/components/QRPreview";
 import { useQRConfig } from "@/hooks/useQRConfig";
 import { isConfigEmpty } from "@/lib/qrContent";
-import type { ContentType, EmailConfig, WifiConfig } from "@/types/qr";
+import { QRCodesPage } from "@/pages/QRCodesPage";
+import type { ContentType, EmailConfig, QRConfig, WifiConfig } from "@/types/qr";
 
 const AccordionFAQ = lazy(() =>
 	import("@/components/AccordionFAQ").then((m) => ({ default: m.AccordionFAQ }))
@@ -21,12 +23,61 @@ const FeedbackWidget = lazy(() =>
 
 type Panel = "customize" | "download";
 
-function App() {
+/** State injected by /qrcodes when the user clicks Edit. */
+interface EditLocationState {
+	editConfig?: QRConfig;
+	editId?: string;
+	editTitle?: string;
+	editDescription?: string;
+	editCategory?: string;
+}
+
+function HomePage() {
 	const { t } = useTranslation();
-	const { config, update, reset } = useQRConfig();
+	const location = useLocation();
+	const navigate = useNavigate();
+	const editState = (location.state as EditLocationState | null) ?? null;
+
+	const { config, update, reset, load } = useQRConfig();
 	const [activePanel, setActivePanel] = useState<Panel>("customize");
 	const qrInstanceRef = useRef<QRCodeStyling | null>(null);
 	const isEmpty = isConfigEmpty(config);
+
+	// editMeta lives in local state so reset/save can clear it independently of location.state
+	const [editMeta, setEditMeta] = useState<
+		{ id: string; title: string; description: string; category: string } | undefined
+	>(() =>
+		editState?.editId != null
+			? {
+					id: editState.editId,
+					title: editState.editTitle ?? "",
+					description: editState.editDescription ?? "",
+					category: editState.editCategory ?? ""
+				}
+			: undefined
+	);
+
+	// When navigating here from /qrcodes Edit, preload the config and switch to the download tab
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional mount-only effect
+	useEffect(() => {
+		if (editState?.editConfig) {
+			load(editState.editConfig);
+			setActivePanel("download");
+			// Clear location state so stale edit data doesn't persist across resets
+			navigate(location.pathname, { replace: true, state: null });
+		}
+	}, []);
+
+	const handleReset = useCallback(() => {
+		reset();
+		setEditMeta(undefined);
+	}, [reset]);
+
+	const handleSaved = useCallback(() => {
+		setEditMeta(undefined);
+		reset();
+		navigate("/qrcodes");
+	}, [reset, navigate]);
 
 	const handleTextChange = useCallback((value: string) => update("text", value), [update]);
 	const handleContentTypeChange = useCallback(
@@ -121,7 +172,13 @@ function App() {
 							{activePanel === "customize" ? (
 								<CustomizationPanel config={config} onUpdate={update} />
 							) : (
-								<DownloadPanel qrInstance={qrInstanceRef} disabled={isEmpty} />
+								<DownloadPanel
+									qrInstance={qrInstanceRef}
+									disabled={isEmpty}
+									config={config}
+									editMeta={editMeta}
+									onSaved={handleSaved}
+								/>
 							)}
 						</div>
 					</section>
@@ -137,7 +194,7 @@ function App() {
 					<div className="w-full pt-2 border-t border-border">
 						<button
 							type="button"
-							onClick={reset}
+							onClick={handleReset}
 							className="w-full py-2 rounded-lg text-[13px] cursor-pointer font-medium transition-colors duration-150"
 							style={{
 								background: "rgba(248,113,113,0.08)",
@@ -163,11 +220,14 @@ function App() {
 	);
 }
 
-export default function Root() {
+export default function App() {
 	return (
 		<LazyMotion features={domAnimation}>
 			<Suspense fallback={null}>
-				<App />
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/qrcodes" element={<QRCodesPage />} />
+				</Routes>
 			</Suspense>
 		</LazyMotion>
 	);
